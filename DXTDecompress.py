@@ -36,12 +36,15 @@ class DXTBuffer:
 		self.height = height
 
 		self.block_countx = self.width // 4
-		self.block_county = self.height // 4 # Check these values too ERROR PRONE
+		self.block_county = self.height// 4
 
-		self.decompressed_buffer = [0] * ((self.block_countx * self.block_county) * 16) # Calculate the size of the new buffer 16=Pixels per Block
+		self.decompressed_buffer = [bytes(1)] * ((self.block_countx * self.block_county) * 24)
+
+		print(f"Log: New DXTBuffer instance created {width}x{height}")
 
 
 	def DXT5Decompress(self, file):
+		print(f"Log: DTX5 Decompressing..")
 		# Loop through each block and decompress it
 		for row in range(self.block_county):
 			for col in range(self.block_countx):
@@ -65,10 +68,12 @@ class DXTBuffer:
 						alpha = self.getAlpha(j, i, a0, a1, atable, acode0, acode1)
 						self.getColors(row * 4, col * 4, i, j, ctable, unpackRGB(c0) ,unpackRGB(c1), alpha) # Set the color for the current pixel
 
+		print(f"Log: DXT Buffer decompressed and returned successfully.")
 		return b''.join(self.decompressed_buffer)
 
 
 	def DXT1Decompress(self, file):
+		print(f"Log: DTX1 Decompressing..")
 		# Loop through each block and decompress it
 		for row in range(self.block_county):
 			for col in range(self.block_countx):
@@ -83,6 +88,7 @@ class DXTBuffer:
 					for i in range(4):
 						self.getColors(row * 4, col * 4, i, j, ctable, unpackRGB(c0) ,unpackRGB(c1), 255) # Set the color for the current pixel
 
+		print(f"Log: DXT Buffer decompressed and returned successfully.")
 		return b''.join(self.decompressed_buffer)
 
 	def getColors(self, x, y, i, j, ctable, c0, c1, alpha):
@@ -131,7 +137,7 @@ class DXTBuffer:
 		if alpha_index <= 12:
 			alpha_code = (acode1 >> alpha_index) & 0x07
 		elif alpha_index == 15:
-			alpha_code = (acode1 >> 15) | ((acode0 << 1) & 0x06) # 15 use to be 16 but threw an error (check this)
+			alpha_code = (acode1 >> 15) | ((acode0 << 1) & 0x06)
 		else:
 			alpha_code = (acode0 >> (alpha_index - 16)) & 0x07
 

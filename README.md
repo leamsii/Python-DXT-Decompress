@@ -6,7 +6,7 @@
 
 <h2>Quick Tutorial</h2>
 
-An instance of the DXTBuffer class needs to be created with the Texture's width/height as arguements.
+An instance of the DXTBuffer class needs to be created with the Texture's width/height as arguments.
 
 Then simply call the DXTDecompress(file). The file must be open and the pointer needs to be at the compressed DXT data chunk
 

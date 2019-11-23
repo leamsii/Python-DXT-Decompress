@@ -1,3 +1,8 @@
+"""
+This small scripts decompresses Don't Starve .TEX Texture files
+using DXTDecompress.py
+"""
+
 import sys
 import struct
 from time import sleep

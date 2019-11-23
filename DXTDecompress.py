@@ -42,7 +42,7 @@ class DXTBuffer:
 
 
 	def DXT5Decompress(self, file):
-		print(f"Log: DTX5 Decompressing..")
+		print("Log: DTX5 Decompressing..")
 
 		# Loop through each block and decompress it
 		for row in range(self.block_county):
@@ -68,7 +68,7 @@ class DXTBuffer:
 						self.getColors(row * 4, col * 4, i, j, ctable, unpackRGB(c0) ,unpackRGB(c1), alpha) # Set the color for the current pixel
 
 
-		print(f"Log: DXT Buffer decompressed and returned successfully.")
+		print("Log: DXT Buffer decompressed and returned successfully.")
 		return b''.join([_ for _ in self.decompressed_buffer if _ != 'X'])
 
 
@@ -88,7 +88,7 @@ class DXTBuffer:
 					for i in range(4):
 						self.getColors(row * 4, col * 4, i, j, ctable, unpackRGB(c0) ,unpackRGB(c1), 255) # Set the color for the current pixel
 
-		print(f"Log: DXT Buffer decompressed and returned successfully.")
+		print("Log: DXT Buffer decompressed and returned successfully.")
 		return b''.join([_ for _ in self.decompressed_buffer if _ != 'X'])
 
 	def getColors(self, x, y, i, j, ctable, c0, c1, alpha):

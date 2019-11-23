@@ -12,4 +12,4 @@ Then simply call the DXTDecompress(file). The file must be open and the pointer 
 
 
 <h4>Happy Modding!</h4>
-<img src = "https://www.pngfind.com/pngs/m/74-748928_webber-don-t-starve-webber-art-hd-png.png" width = "300" height = "300">
+<img src = "https://www.pngfind.com/pngs/m/74-748928_webber-don-t-starve-webber-art-hd-png.png" width = "350" height = "300">

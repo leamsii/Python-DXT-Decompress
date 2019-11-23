@@ -8,7 +8,6 @@ Original C++ code https://github.com/Benjamin-Dobell/s3tc-dxt-decompression
 
 import struct
 
-
 def unpack(_bytes):
 	STRUCT_SIGNS = {
 	1 : 'B',
@@ -38,13 +37,13 @@ class DXTBuffer:
 		self.block_countx = self.width // 4
 		self.block_county = self.height// 4
 
-		self.decompressed_buffer = [bytes(1)] * ((self.block_countx * self.block_county) * 24)
-
+		self.decompressed_buffer = ["X"] * ((width * height) * 2) # Dont ask me why
 		print(f"Log: New DXTBuffer instance created {width}x{height}")
 
 
 	def DXT5Decompress(self, file):
 		print(f"Log: DTX5 Decompressing..")
+
 		# Loop through each block and decompress it
 		for row in range(self.block_county):
 			for col in range(self.block_countx):
@@ -68,8 +67,9 @@ class DXTBuffer:
 						alpha = self.getAlpha(j, i, a0, a1, atable, acode0, acode1)
 						self.getColors(row * 4, col * 4, i, j, ctable, unpackRGB(c0) ,unpackRGB(c1), alpha) # Set the color for the current pixel
 
+
 		print(f"Log: DXT Buffer decompressed and returned successfully.")
-		return b''.join(self.decompressed_buffer)
+		return b''.join([_ for _ in self.decompressed_buffer if _ != 'X'])
 
 
 	def DXT1Decompress(self, file):
@@ -89,7 +89,7 @@ class DXTBuffer:
 						self.getColors(row * 4, col * 4, i, j, ctable, unpackRGB(c0) ,unpackRGB(c1), 255) # Set the color for the current pixel
 
 		print(f"Log: DXT Buffer decompressed and returned successfully.")
-		return b''.join(self.decompressed_buffer)
+		return b''.join([_ for _ in self.decompressed_buffer if _ != 'X'])
 
 	def getColors(self, x, y, i, j, ctable, c0, c1, alpha):
 		code = (ctable >> ( 2 * (4 * i + j))) & 0x03 # Get the color of the current pixel
@@ -143,7 +143,7 @@ class DXTBuffer:
 
 		if alpha_code == 0:
 			alpha = a0
-		if alpha_code == 1:
+		elif alpha_code == 1:
 			alpha = a1
 		else:
 			if a0 > a1:
@@ -153,7 +153,14 @@ class DXTBuffer:
 					alpha = 0
 				elif alpha_code == 7:
 					alpha = 255
+				elif alpha_code == 5:
+					alpha = (1 * a0 + 4 * a1) // 5
+				elif alpha_code == 4:
+					alpha = (2 * a0 + 3 * a1) // 5
+				elif alpha_code == 3:
+					alpha = (3 * a0 + 2 * a1) // 5
+				elif alpha_code == 2:
+					alpha = (4 * a0 + 1 * a1) // 5
 				else:
-					alpha = ((6-alpha_code) * a0 + (alpha_code-1) * a1) // 5
-
+					alpha = 0 # For safety
 		return alpha

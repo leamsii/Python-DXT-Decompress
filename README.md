@@ -14,7 +14,3 @@ Then simply call the DXTDecompress(file) function. The file must be open and the
 Inside the sample folder there is a small script that converts Don't Starve's .TEX Textures to PNG using DXTDecompress
 
 <h6>Feel free to report any discovered issues</h6>
-
-
-<h4>Happy Modding!</h4>
-<img src = "https://www.pngfind.com/pngs/m/74-748928_webber-don-t-starve-webber-art-hd-png.png" width = "350" height = "300">
